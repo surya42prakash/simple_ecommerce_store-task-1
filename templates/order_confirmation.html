@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Order confirmed{% endblock %}
+{% block content %}
+<div class="confirm">
+  <div class="tick" aria-hidden="true">&#10003;</div>
+  <h1>Thank you, {{ order.customer_name }}!</h1>
+  <p>Your demo order <strong>{{ order.order_number }}</strong> has been placed.</p>
+  <p class="muted">Status: {{ order.get_status_display }} &middot; Payment: Cash on Delivery (simulated). No real payment was processed.</p>
+</div>
+{% include 'includes/order_items_table.html' %}
+<p class="actions">
+  <a class="btn btn-primary" href="{% url 'order_history' %}">View my orders</a>
+  <a class="btn" href="{% url 'product_list' %}">Continue shopping</a>
+</p>
+{% endblock %}

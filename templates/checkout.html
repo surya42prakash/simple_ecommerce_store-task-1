@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Checkout{% endblock %}
+{% block content %}
+<h1>Checkout</h1>
+<p class="notice">This is a <strong>demo checkout</strong>. Payment is simulated as &ldquo;Cash on Delivery&rdquo;; no real payment is taken.</p>
+<div class="cart-layout">
+  <form method="post" class="form-card" novalidate>
+    {% csrf_token %}
+    <h2>Shipping &amp; contact details</h2>
+    {% include 'includes/form_fields.html' %}
+    <button type="submit" class="btn btn-primary btn-block" data-once>Place order (pay on delivery)</button>
+  </form>
+  <aside class="summary" aria-label="Order summary">
+    <h2>Your order</h2>
+    <ul class="summary-list">
+      {% for row in items %}
+        <li><span>{{ row.product.name }} &times; {{ row.quantity }}</span><span>₹{{ row.subtotal|floatformat:"2g" }}</span></li>
+      {% endfor %}
+    </ul>
+    <p class="summary-row"><span>Total</span><strong class="price-lg">₹{{ total|floatformat:"2g" }}</strong></p>
+    <p class="muted small">The final total is recalculated on the server from current prices.</p>
+    <a class="btn btn-block" href="{% url 'cart_detail' %}">Back to cart</a>
+  </aside>
+</div>
+{% endblock %}

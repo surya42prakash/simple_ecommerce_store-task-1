@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block title %}Order {{ order.order_number }}{% endblock %}
+{% block content %}
+<nav class="breadcrumb" aria-label="Breadcrumb"><a href="{% url 'order_history' %}">My orders</a> / <span>{{ order.order_number }}</span></nav>
+<h1>Order {{ order.order_number }}</h1>
+<p class="muted">Placed on {{ order.created_at|date:"d M Y, H:i" }} &middot; Status: <span class="status status-{{ order.status }}">{{ order.get_status_display }}</span></p>
+{% include 'includes/order_items_table.html' %}
+{% endblock %}

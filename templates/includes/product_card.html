@@ -1,0 +1,30 @@
+{% load static %}
+<article class="card product-card">
+  <a href="{{ product.get_absolute_url }}" class="card-img-link" aria-label="View {{ product.name }}">
+    {% if product.image %}
+      <img src="{{ product.image.url }}" alt="{{ product.name }}" loading="lazy" width="300" height="300">
+    {% else %}
+      <img src="{% static 'images/placeholder.svg' %}" alt="No image available for {{ product.name }}" loading="lazy" width="300" height="300">
+    {% endif %}
+  </a>
+  <div class="card-body">
+    {% if product.category %}<p class="muted small">{{ product.category.name }}</p>{% endif %}
+    <h3><a href="{{ product.get_absolute_url }}">{{ product.name }}</a></h3>
+    <p class="desc">{{ product.description|truncatechars:80 }}</p>
+    <p class="price">₹{{ product.price|floatformat:"2g" }}</p>
+    {% if product.in_stock %}
+      <p class="stock {% if product.low_stock %}low{% else %}ok{% endif %}">
+        {% if product.low_stock %}Only {{ product.stock }} left{% else %}In stock ({{ product.stock }}){% endif %}
+      </p>
+      <form method="post" action="{% url 'cart_add' product.pk %}">
+        {% csrf_token %}
+        <input type="hidden" name="quantity" value="1">
+        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+        <button type="submit" class="btn btn-primary btn-block">Add to Cart</button>
+      </form>
+    {% else %}
+      <p class="stock out">Out of stock</p>
+      <button type="button" class="btn btn-block" disabled>Unavailable</button>
+    {% endif %}
+  </div>
+</article>

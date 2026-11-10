@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<section class="hero">
+  <div>
+    <h1>Everything you need, in one simple store.</h1>
+    <p>Browse electronics, fashion, home essentials, books and fitness gear. Prices in Indian rupees (₹).</p>
+    <a class="btn btn-light" href="{% url 'product_list' %}">Shop all products</a>
+  </div>
+</section>
+
+{% if categories %}
+<section aria-labelledby="cat-h">
+  <h2 id="cat-h" class="section-title">Shop by category</h2>
+  <div class="chips">
+    {% for c in categories %}<a class="chip" href="{{ c.get_absolute_url }}">{{ c.name }}</a>{% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% if featured %}
+<section aria-labelledby="feat-h">
+  <h2 id="feat-h" class="section-title">Featured products</h2>
+  <div class="grid">{% for product in featured %}{% include 'includes/product_card.html' %}{% endfor %}</div>
+</section>
+{% endif %}
+
+<section aria-labelledby="latest-h">
+  <h2 id="latest-h" class="section-title">Latest products</h2>
+  {% if latest %}
+    <div class="grid">{% for product in latest %}{% include 'includes/product_card.html' %}{% endfor %}</div>
+  {% else %}
+    <div class="empty">
+      <h3>No products yet</h3>
+      <p>Run <code>python manage.py seed_demo_data</code> or add products in the admin panel.</p>
+    </div>
+  {% endif %}
+</section>
+{% endblock %}

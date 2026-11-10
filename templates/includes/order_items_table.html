@@ -1,0 +1,22 @@
+<div class="table-wrap">
+  <table class="table">
+    <caption class="sr-only">Items in order {{ order.order_number }}</caption>
+    <thead><tr><th scope="col">Item</th><th scope="col">Unit price</th><th scope="col">Qty</th><th scope="col">Subtotal</th></tr></thead>
+    <tbody>
+    {% for item in order.items.all %}
+      <tr>
+        <td data-label="Item">{{ item.product_name }}</td>
+        <td data-label="Unit price">₹{{ item.unit_price|floatformat:"2g" }}</td>
+        <td data-label="Qty">{{ item.quantity }}</td>
+        <td data-label="Subtotal">₹{{ item.line_subtotal|floatformat:"2g" }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+    <tfoot><tr><th scope="row" colspan="3">Total</th><td><strong>₹{{ order.total|floatformat:"2g" }}</strong></td></tr></tfoot>
+  </table>
+</div>
+<h2>Shipping information</h2>
+<address class="address">
+  {{ order.customer_name }}<br>{{ order.address }}<br>{{ order.city }}, {{ order.state }} {{ order.postal_code }}<br>
+  Phone: {{ order.phone }}<br>Email: {{ order.email }}
+</address>
